@@ -1,0 +1,11 @@
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\bin\Debug\netcoreapp2.1\Base64ToAudio.deps.json
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\bin\Debug\netcoreapp2.1\Base64ToAudio.runtimeconfig.json
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\bin\Debug\netcoreapp2.1\Base64ToAudio.runtimeconfig.dev.json
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\bin\Debug\netcoreapp2.1\Base64ToAudio.dll
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\obj\Debug\netcoreapp2.1\Base64ToAudio.csprojAssemblyReference.cache
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\obj\Debug\netcoreapp2.1\Base64ToAudio.csproj.CoreCompileInputs.cache
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\obj\Debug\netcoreapp2.1\Base64ToAudio.AssemblyInfoInputs.cache
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\obj\Debug\netcoreapp2.1\Base64ToAudio.AssemblyInfo.cs
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\bin\Debug\netcoreapp2.1\Base64ToAudio.pdb
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\obj\Debug\netcoreapp2.1\Base64ToAudio.dll
+D:\Mine\MyTest\Base64ToAudio\Base64ToAudio\obj\Debug\netcoreapp2.1\Base64ToAudio.pdb
