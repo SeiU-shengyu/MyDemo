@@ -68,8 +68,66 @@ namespace ConsoleApp1
             }
         }
 
-        static void GetPath2(int[][] map)
+        struct Point
         {
+            public int x;
+            public int y;
+            public Point(int x,int y)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
+
+        static Stack<Point> pathPoints = new Stack<Point>();
+        static void GetPath2(int[][] map, int staX, int staY, int tarX, int tarY)
+        {
+            int curX = staX, curY = staY;
+            bool addX = false, addY = false, minusX = false, minusY = false;
+            while (true)
+            {
+                if (curX == tarX && curY == tarY)
+                {
+                    break;
+                }
+                else if (curX >= map.Length || curY >= map[0].Length || curX < 0 || curY < 0 || map[curX][curY] == 0 || map[curX][curY] == 2)
+                {
+                    Point p = pathPoints.Pop();
+                    curX = p.x;
+                    curY = p.y;
+                }
+                else
+                {
+                    pathPoints.Push(new Point(curX, curY));
+                    if (!addX)
+                    {
+                        curX++;
+                        addX = true;
+                    }
+                    else if (!addY)
+                    {
+                        curY++;
+                        addY = true;
+                    }
+                    else if (!minusX)
+                    {
+                        curX--;
+                        minusX = true;
+                    }
+                    else if (!minusY)
+                    {
+                        curY--;
+                        minusY = true;
+                    }
+                    else
+                    {
+                        addX = false;
+                        addY = false;
+                        minusX = false;
+                        minusY = false;
+                    }
+                }
+            }
         }
     }
 }
