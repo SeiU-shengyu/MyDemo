@@ -46,9 +46,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Picture\Picture.cs" />
+     <Compile Include="Assets\Scripts\Actor.cs" />
+     <Compile Include="Assets\Scripts\AssetsManager.cs" />
      <Compile Include="Assets\Scripts\DataManager.cs" />
      <Compile Include="Assets\Scripts\Item.cs" />
-     <Compile Include="Assets\Scripts\ItemGrid.cs" />
+     <Compile Include="Assets\Scripts\ItemGrids.cs" />
+     <Compile Include="Assets\Scripts\Tools.cs" />
      <Compile Include="Assets\Scripts\UIActor.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>D:/Work/Unity5.6.5/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>

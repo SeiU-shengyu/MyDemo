@@ -53,3 +53,4 @@ D:\Work\MyTest\MyDemo\Demo\Demo\obj\Debug\Assembly-CSharp-Editor.csproj.CoreComp
 D:\Work\MyTest\MyDemo\Demo\Demo\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 D:\Work\MyTest\MyDemo\Demo\Demo\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Work\MyTest\MyDemo\Demo\Demo\obj\Debug\Assembly-CSharp-Editor.pdb
+D:\Work\MyTest\MyDemo\Demo\Demo\Temp\bin\Debug\Assembly-CSharp.pdb

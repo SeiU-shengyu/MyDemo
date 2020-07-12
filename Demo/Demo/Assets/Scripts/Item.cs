@@ -15,7 +15,7 @@ public class Item : UIActor {
     void Start () {
         m_icon = GetComponent<Image>();
         m_curGrid = GameObject.Find("ItemGrid1");
-        transform.position = m_curGrid.transform.position;
+        //transform.position = m_curGrid.transform.position;
     }
 	
 	// Update is called once per frame
