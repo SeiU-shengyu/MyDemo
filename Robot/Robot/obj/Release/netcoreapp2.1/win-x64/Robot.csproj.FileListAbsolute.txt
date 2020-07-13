@@ -1,0 +1,14 @@
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\hostpolicy.dll
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\hostfxr.dll
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\Robot.exe
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\Robot.deps.json
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\Robot.runtimeconfig.json
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\Robot.runtimeconfig.dev.json
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\Robot.dll
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\win-x64\Robot.pdb
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\win-x64\Robot.csprojAssemblyReference.cache
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\win-x64\Robot.csproj.CoreCompileInputs.cache
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\win-x64\Robot.AssemblyInfoInputs.cache
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\win-x64\Robot.AssemblyInfo.cs
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\win-x64\Robot.dll
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\win-x64\Robot.pdb

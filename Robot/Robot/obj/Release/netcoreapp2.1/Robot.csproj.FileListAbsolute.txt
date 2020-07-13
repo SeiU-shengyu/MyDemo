@@ -1,0 +1,11 @@
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\Robot.deps.json
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\Robot.runtimeconfig.json
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\Robot.runtimeconfig.dev.json
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\Robot.dll
+D:\Mine\MyTest\Robot\Robot\bin\Release\netcoreapp2.1\Robot.pdb
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\Robot.csproj.CoreCompileInputs.cache
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\Robot.AssemblyInfoInputs.cache
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\Robot.AssemblyInfo.cs
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\Robot.dll
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\Robot.pdb
+D:\Mine\MyTest\Robot\Robot\obj\Release\netcoreapp2.1\Robot.csprojAssemblyReference.cache

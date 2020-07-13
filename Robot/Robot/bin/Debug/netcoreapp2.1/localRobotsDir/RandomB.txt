@@ -1,0 +1,2 @@
+{"user":"13100000202","pwd":"123456","dailyValue":200000,"limitValue":1000000,"value":5000,"games":[0,0,0,0,0,0,1],"startTime":"00:00","startTimeSeconds":0,"endTime":"23:59","endTimeSeconds":86340,"interval":7,"isFullAward":false}
+{"user":"13100000203","pwd":"123456","dailyValue":200000,"limitValue":1000000,"value":5000,"games":[0,0,0,0,0,0,1],"startTime":"00:00","startTimeSeconds":0,"endTime":"23:59","endTimeSeconds":86340,"interval":7,"isFullAward":false}

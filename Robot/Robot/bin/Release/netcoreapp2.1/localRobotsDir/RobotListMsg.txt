@@ -1,0 +1,3 @@
+{"names":["RandomA.txt","RandomA.txt","RandomA.txt"],"startTimeHours":11,"startTimeMinutes":20,"endTimeHours":11,"endTimeMinutes":25}
+{"names":["RandomB.txt","RandomB.txt","RandomB.txt"],"startTimeHours":11,"startTimeMinutes":25,"endTimeHours":11,"endTimeMinutes":30}
+{"names":["RandomC.txt","RandomC.txt","RandomC.txt"],"startTimeHours":11,"startTimeMinutes":30,"endTimeHours":11,"endTimeMinutes":40}

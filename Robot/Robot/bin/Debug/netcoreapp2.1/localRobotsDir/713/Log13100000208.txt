@@ -1,0 +1,23 @@
+2020/7/13 17:05:44
+{"errcode":200,"errmsg":"ok","data":"b9353e5dfccafae855afcb6ad1ff97b8b3cbef21"}
+2020/7/13 17:05:44
+{"errcode":200,"errmsg":"ok","data":{"access_token":"28344f653d8bf2a67b5cd062f7d859a46daaa9b9","expires_in":172800,"regType":"phone"}}
+2020/7/13 17:07:49
+{"errcode":200,"errmsg":"ok","data":"a0b4ab13b3d3cd65d54551dc18625af78aa00a0d"}
+2020/7/13 17:07:49
+{"errcode":200,"errmsg":"ok","data":{"access_token":"b89df77bb53af87cf891b1c13fdd22547f314bbe","expires_in":172800,"regType":"phone"}}
+2020/7/13 17:07:49
+url:https://test-game-api.0dgame.com/crush/startGame
+host:test-game-api.0dgame.com
+send:{
+  "cellScore": 1000,
+  "msgId": "startGame"
+}
+read:{
+  "code": 500,
+  "msgId": "startGame"
+}
+2020/7/13 17:09:40
+{"errcode":200,"errmsg":"ok","data":"3f1d1a362448c4255941b3b196f935e4b9a3e4c9"}
+2020/7/13 17:09:40
+{"errcode":200,"errmsg":"ok","data":{"access_token":"d5f5881d9f784dd486deb349a44f41a992aa518a","expires_in":172800,"regType":"phone"}}
