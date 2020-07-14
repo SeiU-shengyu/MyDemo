@@ -33,7 +33,18 @@ cc.Class({
         this.node.on(cc.Node.EventType.TOUCH_MOVE,this.onTouchMove,this);
         this.node.on(cc.Node.EventType.TOUCH_END,this.onTouchEnd,this);
         this.node.on(cc.Node.EventType.TOUCH_CANCEL,this.onTouchCancle,this);
-        this.lastPosition = this.node.position;
+
+        this.itemIcon = this.node.getChildByName("Icon").getComponent(cc.Sprite);
+        this.spriteBg = this.node.getChildByName("Bg").getComponent(cc.Sprite);
+        this.countsStr = this.node.getChildByName("Counts").getComponent(cc.Label);
+
+        this.gridIndex = 0;
+        this.itemId = 0;
+        this.counts = 0;
+        this.quality = 0;
+        this.countsStr.string = this.counts;
+
+        this.itemMoveParent = cc.find("Canvas/Items");
     },
 
     start () {
@@ -42,9 +53,33 @@ cc.Class({
 
     // update (dt) {},
 
+    addCount(count)
+    {
+        this.counts += count;
+        this.countsStr.string = this.counts;
+    },
+    setQuality(quality)
+    {
+        this.quality = quality;
+        switch(quality)
+        {
+            case 0:
+                this.spriteBg.node.color = cc.Color.WHITE;
+                break;
+            case 1:
+                this.spriteBg.node.color = cc.Color.GREEN;
+                break;
+            case 2:
+                this.spriteBg.node.color = cc.Color.BLUE;
+                break;
+        }
+    },
+
     onTouchStart(event)
     {
         console.log("Item->touchStart");
+        this.node.parent = this.itemMoveParent;
+        this.node.position = this.node.parent.convertToNodeSpaceAR(event.getLocation());
     },
     onTouchMove(event)
     {
@@ -54,7 +89,6 @@ cc.Class({
     onTouchEnd(event)
     {
         console.log("Item->touchEnd");
-        _callEvent("ItemMoveEnd",this.node,this.node.convertToWorldSpaceAR(cc.v3(0,0,0)),this.lastPosition);
-        this.lastPosition = this.node.position;
+        _callEvent("ItemMoveEnd",this,this.node.convertToWorldSpaceAR(cc.v3(0,0,0)));
     },
 });
