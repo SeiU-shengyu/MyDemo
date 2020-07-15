@@ -44,6 +44,7 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
+        this.itemIcons = [];
         this.rodeGrids = this.node.children;
         this.curGridIndex = 0;
         this.walkLength = 0
@@ -62,7 +63,6 @@ cc.Class({
             {
                 this.itemIcons[i] = spriteFrames[i];
             }
-            this.items = new Array(spriteFrames.length);
             console.log("loadImage:" + this.itemIcons.length);
         }.bind(this))
     },
