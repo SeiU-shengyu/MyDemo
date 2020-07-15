@@ -89,7 +89,7 @@ cc.Class({
             item.node.position = cc.v3(0,0,0);
         }.bind(this),2)
 
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN,this.onAddItem,this); 
+        //cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN,this.onAddItem,this); 
     },
 
     start () {
