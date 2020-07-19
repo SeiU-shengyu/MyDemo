@@ -200,7 +200,7 @@ namespace Robot
                 return;
             }
             lastPlayTime = Tools.GetToDayTime();
-            if (curPlayCounts == checkPlayCounts)
+            if (curPlayCounts >= checkPlayCounts)
                 GetSupportRank();
             else
                 StartGame();

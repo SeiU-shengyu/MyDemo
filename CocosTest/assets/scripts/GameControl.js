@@ -29,20 +29,13 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad () {
-        this.grids = this.node.children;
-        _addEvent("ItemMoveEnd",function(node,position,lastPosition){
-            for(let i = 0;i < this.grids.length;i++)
-            {
-                let worldPos = this.grids[i].convertToWorldSpaceAR(cc.v3(0,0,0));
-                if(Math.abs(worldPos.x - position.x) <= this.grids[i].width / 2 && Math.abs(worldPos.y - position.y) <= this.grids[0].height / 2)
-                {
-                    node.position = node.parent.convertToNodeSpaceAR(worldPos);
-                    console.log(this.grids[i].name + "->reciveEvent" + ":" + position + ":" + worldPos + ":" + this.grids[i].width + ":" + this.grids[i].height);
-                    return;
-                }
-            }
-            node.position = lastPosition;
-        }.bind(this),3)
+        this.bag = cc.find("Canvas/Bag");
+        let node = new cc.Node();
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN,function(event){
+            if(event.keyCode == cc.macro.KEY.b)
+                this.bag.active = !this.bag.active;
+            console.log(JSON.stringify(event));
+        }.bind(this),this)
     },
 
     start () {

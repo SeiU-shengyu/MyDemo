@@ -28,33 +28,11 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    onLoad () {
-        this.node.on(cc.Node.EventType.TOUCH_START,this.onTouchStart,this);
-        this.node.on(cc.Node.EventType.TOUCH_MOVE,this.onTouchMove,this);
-        this.node.on(cc.Node.EventType.TOUCH_END,this.onTouchEnd,this);
-        this.node.on(cc.Node.EventType.TOUCH_CANCEL,this.onTouchCancle,this);
-        this.lastPosition = this.node.position;
-    },
+    // onLoad () {},
 
     start () {
 
     },
 
     // update (dt) {},
-
-    onTouchStart(event)
-    {
-        console.log("Item->touchStart");
-    },
-    onTouchMove(event)
-    {
-        console.log("Item->touchMove");
-        this.node.position = this.node.parent.convertToNodeSpaceAR(event.getLocation());
-    },
-    onTouchEnd(event)
-    {
-        console.log("Item->touchEnd");
-        _callEvent("ItemMoveEnd",this.node,this.node.convertToWorldSpaceAR(cc.v3(0,0,0)),this.lastPosition);
-        this.lastPosition = this.node.position;
-    },
 });
