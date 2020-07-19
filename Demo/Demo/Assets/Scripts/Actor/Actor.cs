@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Actor : MonoBehaviour {
-
-    public void ReUse()
+    protected ActorType actorType;
+    public virtual void ReUse()
     {
         gameObject.SetActive(true);
     }
-    public void UnUse()
+    public virtual void UnUse()
     {
         gameObject.SetActive(false);
+    }
+    public virtual void Release()
+    {
+        AssetsManager.Instance.ReleaseActor(actorType, this);
     }
 	// Use this for initialization
 	void Start () {
