@@ -11,6 +11,11 @@ public class Item : UIActor {
     private GameObject m_curGrid;
 
     private ItmeMsg m_itmeMsg;
+
+    void Awake()
+    {
+        actorType = ActorType.ITEM;
+    }
     // Use this for initialization
     void Start () {
         m_icon = GetComponent<Image>();

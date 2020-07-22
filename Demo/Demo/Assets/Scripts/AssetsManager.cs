@@ -7,8 +7,11 @@ public class AssetsManager : MonoBehaviour {
     private Dictionary<int, Sprite> m_icons = new Dictionary<int, Sprite>();
     private Dictionary<ActorType, ActorPool> m_actors = new Dictionary<ActorType, ActorPool>();
 
+    public static AssetsManager Instance;
+
     void Awake()
     {
+        Instance = this;
         Texture2D[] textures = Resources.LoadAll<Texture2D>("ItemImage");
         for (int i = 0; i < textures.Length; i++)
         {
@@ -16,8 +19,13 @@ public class AssetsManager : MonoBehaviour {
             m_icons.Add(int.Parse(textures[i].name), sprite);
         }
 
+        //加载资源并创建对应的对象池
         GameObject gameObject = Resources.Load<GameObject>("Item");
         m_actors.Add(ActorType.ITEM, new ActorPool(10, gameObject));
+        gameObject = Resources.Load<GameObject>("BufferObj");
+        m_actors.Add(ActorType.AACTORBUFFER, new ActorPool(10, gameObject));
+        gameObject = Resources.Load<GameObject>("SkillItem");
+        m_actors.Add(ActorType.SKILL, new ActorPool(10, gameObject));
     }
 
     // Use this for initialization
@@ -28,20 +36,36 @@ public class AssetsManager : MonoBehaviour {
     private Actor testActor;
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.Space))
-            testActor = m_actors[ActorType.ITEM].GetActor();
-        if(Input.GetMouseButtonDown(0))
-            m_actors[ActorType.ITEM].ReleaseActor(testActor);
     }
 
+    /// <summary>
+    /// 获取加载过的Icon图片资源
+    /// </summary>
+    /// <param name="id">icon对应的id</param>
+    /// <returns></returns>
     public Sprite GetIconSprite(int id)
     {
         return m_icons[id];
     }
 
+    /// <summary>
+    /// 从对应的Actor对象池中获取加载过的Actor
+    /// </summary>
+    /// <param name="actorType">Actor对应的类型</param>
+    /// <returns></returns>
     public Actor GetActor(ActorType actorType)
     {
         return m_actors[actorType].GetActor();
+    }
+
+    /// <summary>
+    /// 释放被引用的Actor到对应的对象池
+    /// </summary>
+    /// <param name="actorType"></param>
+    /// <param name="actor"></param>
+    public void ReleaseActor(ActorType actorType, Actor actor)
+    {
+        m_actors[actorType].ReleaseActor(actor);
     }
 }
 
@@ -51,16 +75,12 @@ public class ActorPool
     private List<Actor> m_idlePool;
     private List<Actor> m_busyPool;
     private Transform m_idleParent;
-    private Transform m_busyParent;
 
     public ActorPool(int initCounts,GameObject obj)
     {
-        GameObject gameObject1 = new GameObject(obj.name);
-        gameObject1.transform.parent = GameObject.Find("Canvas/UIActorPool").transform;
-        m_idleParent = new GameObject(obj.name + "IdlePool").transform;
-        m_busyParent = new GameObject(obj.name + "BusyPool").transform;
-        m_idleParent.SetParent(gameObject1.transform);
-        m_busyParent.SetParent(gameObject1.transform);
+        GameObject gameObject = new GameObject(obj.name);
+        gameObject.transform.parent = GameObject.Find("ActorPool").transform;
+        m_idleParent = gameObject.transform;
 
         m_templateObj = obj;
         m_idlePool = new List<Actor>(initCounts);
@@ -82,7 +102,6 @@ public class ActorPool
             m_idlePool.Remove(actor);
             m_busyPool.Add(actor);
             actor.ReUse();
-            actor.transform.SetParent(m_busyParent);
             return actor;
         }
         else
@@ -90,7 +109,6 @@ public class ActorPool
             Actor actor = Object.Instantiate(m_templateObj).GetComponent<Actor>();
             m_busyPool.Add(actor);
             actor.ReUse();
-            actor.transform.SetParent(m_busyParent);
             return actor;
         }
     }
