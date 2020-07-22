@@ -1,38 +1,21 @@
-// Learn cc.Class:
-//  - https://docs.cocos.com/creator/manual/en/scripting/class.html
-// Learn Attribute:
-//  - https://docs.cocos.com/creator/manual/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - https://docs.cocos.com/creator/manual/en/scripting/life-cycle-callbacks.html
+var loadResources = 
+{
+    progress : 0,
+    itemIcons : [],
+    load : function(completedCall){
+        cc.loader.loadResDir("texture",cc.SpriteFrame,function(completeCounts,totalCounts,item){
+            progress = completeCounts / totalCounts * 100;
+            console.log(progress);
+        },function(error,spriteFrames)
+        {
+            for(let i = 0;i < spriteFrames.length;i++)
+            {
+                this.itemIcons[i] = spriteFrames[i];
+            }
+            if(completedCall)
+                completedCall();
+        }.bind(this))
+    }
+}
 
-cc.Class({
-    extends: cc.Component,
-
-    properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
-    },
-
-    // LIFE-CYCLE CALLBACKS:
-
-    // onLoad () {},
-
-    start () {
-
-    },
-
-    // update (dt) {},
-});
+module.exports = loadResources;

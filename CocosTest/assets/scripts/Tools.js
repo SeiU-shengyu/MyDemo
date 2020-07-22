@@ -116,6 +116,55 @@ var tools = {
                 return datas[index];
         }
     },
+    loadDirRes(path,type)
+    {
+        let p = new Promise(function(resolve,reject){
+            cc.loader.loadResDir(path,type,function(error,resource){
+                if(error)
+                    reject(error);
+                else
+                    resolve(resource);
+            })
+        });
+        return p;
+    },
+    loadRes(path,type)
+    {
+        let p = new Promise(function(resolve,reject){
+            cc.loader.loadRes(path,type,function(error,resource){
+                if(error)
+                    reject(error);
+                else
+                    resolve(resource);
+            })
+        });
+        return p;
+    },
+    getUrlMsg(url,code,number,data){
+        var xhr = new XMLHttpRequest();
+        xhr.timeout = 15000;
+        let p = new Promise(function(resolve,reject){
+            xhr.open('POST',url,true);
+            xhr.onload = function(e){
+                if(this.status == 200)
+                {
+                    let result = JSON.parse(e.responseText);
+                    if(result[code] == number)
+                        resolve(result);
+                    else
+                        reject(result);
+                }
+            };
+            xhr.onerror = function(e){
+                reject(e);
+            };
+            xhr.ontimeout = function(e){
+                reject(e);
+            }
+            xhr.send(data);
+        });
+        return p;
+    },
 }
 
 module.exports = tools;
