@@ -107,11 +107,36 @@ public struct AtkInfo
     public AAcotrBuffer buffer;
 }
 
-public enum SkillType
+public enum SkillReleaseMode
 {
+    SRM_FLY,
+    SRM_MAGIC,
+    SRM_SELF
 }
+public enum SkillAimMode
+{
+    SAM_TARGET,
+    SAM_RANGE,
+    SAM_SELFRANFE
+}
+public enum SkillDamgedMode
+{
+    SDM_SINGLE,
+    SDM_RANGE
+}
+
+[System.Serializable]
 public struct SkillMsg
 {
-    public int id;
-    public int bufferId;
+    public bool isDamagedRange;     //是否范围性伤害
+    public SkillReleaseMode releaseMode;         //释放模式(0:飞弹,1:法阵,2:肉身)
+    public SkillAimMode aimMode;             //瞄准模式(0:指向,1:指定范围,2:自身出发范围)
+    public SkillDamgedMode damgedMode;          //伤害模式(0:单体,1:范围)
+    public float distance;          //施法距离
+    public float drParam1;          //伤害范围参数1
+    public float drParam2;          //伤害范围参数2
+    public float drParam3;          //伤害范围参数3
+    public float time;              //吟唱事件
+    public float delayTime;         //延迟时间
+    public float continueTime;      //持续时间
 }

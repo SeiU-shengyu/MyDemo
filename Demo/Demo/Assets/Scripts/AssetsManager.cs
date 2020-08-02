@@ -6,6 +6,8 @@ using UnityEngine.UI;
 public class AssetsManager : MonoBehaviour {
     private Dictionary<int, Sprite> m_icons = new Dictionary<int, Sprite>();
     private Dictionary<ActorType, ActorPool> m_actors = new Dictionary<ActorType, ActorPool>();
+    private List<Actor> aliveActor = new List<Actor>();
+    public List<Actor> AliveActor { get { return aliveActor; } set { aliveActor = value; } }
 
     public static AssetsManager Instance;
 
@@ -33,7 +35,6 @@ public class AssetsManager : MonoBehaviour {
 
     }
 
-    private Actor testActor;
     // Update is called once per frame
     void Update() {
     }
@@ -66,6 +67,15 @@ public class AssetsManager : MonoBehaviour {
     public void ReleaseActor(ActorType actorType, Actor actor)
     {
         m_actors[actorType].ReleaseActor(actor);
+    }
+
+    public void AddAliveActor(Actor actor)
+    {
+        aliveActor.Add(actor);
+    }
+    public void RemoveAliveActor(Actor actor)
+    {
+        aliveActor.Remove(actor);
     }
 }
 

@@ -6,6 +6,7 @@ public class Skill : Actor {
     public AActor targetAActor;
     public AActor aimAActor;
     public AtkInfo atkInfo;
+    public SkillMsg skillMsg;
 
 	// Use this for initialization
 	void Start () {
@@ -14,23 +15,63 @@ public class Skill : Actor {
 	
 	// Update is called once per frame
 	void Update () {
-        if (transform.position == aimAActor.transform.position)
+        if (skillMsg.delayTime > 0)
         {
-            Debug.Log("Atk");
-            atkInfo.buffer.gameObject.SetActive(true);
-            aimAActor.DamagedBy(atkInfo);
-            Release();
+            skillMsg.delayTime -= Time.deltaTime;
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, aimAActor.transform.position, 10 * Time.deltaTime);
+            if (skillMsg.continueTime > 0)
+            {
+                CheckDamage();
+                skillMsg.continueTime -= Time.deltaTime;
+            }
+            else
+            {
+                CheckDamage();
+                Release();
+            }
         }
 	}
 
-    public void SetMsg(AActor targetAActor, AActor aimAActor, AtkInfo atkInfo)
+    protected virtual bool CheckAffectTarget()
+    {
+        return true;
+    }
+
+    protected virtual bool CheckEnd()
+    {
+        return true;
+    }
+
+    private void CheckDamage()
+    {
+        if (skillMsg.drParam3 == 0)
+        {
+            foreach (AActor aActor in AssetsManager.Instance.AliveActor)
+            {
+                Vector3 dir = aActor.transform.position - transform.position;
+                if (Mathf.Abs(Vector3.Dot(dir, transform.right)) <= skillMsg.drParam1 || 
+                    Mathf.Abs(Vector3.Dot(dir, transform.forward)) <= skillMsg.drParam2)
+                    aActor.DamagedBy(atkInfo);
+            }
+        }
+        else
+        {
+            foreach (AActor aActor in AssetsManager.Instance.AliveActor)
+            {
+                Vector3 dir = aActor.transform.position - transform.position;
+                if(dir.magnitude <= skillMsg.drParam1 && Vector3.Angle(dir,transform.forward) <= skillMsg.drParam3)
+                    aActor.DamagedBy(atkInfo);
+            }
+        }
+    }
+
+    public void SetMsg(AActor targetAActor, AActor aimAActor, AtkInfo atkInfo, SkillMsg skillMsg)
     {
         this.targetAActor = targetAActor;
         this.aimAActor = aimAActor;
         this.atkInfo = atkInfo;
+        this.skillMsg = skillMsg;
     }
 }

@@ -19,6 +19,7 @@ public class AActor : Actor {
     public Text md;
     public Text sp;
     public BufferMsg testBuffer;
+    public Vector3 moveTarget;
 
     public override void ReUse()
     {
@@ -31,6 +32,7 @@ public class AActor : Actor {
 
     // Use this for initialization
     void Start () {
+        AssetsManager.Instance.AddAliveActor(this);
 	}
 	
 	// Update is called once per frame
@@ -43,26 +45,27 @@ public class AActor : Actor {
         md.text = aActorMsg.magicDef[1].ToString();
         sp.text = aActorMsg.moveSpeed[1].ToString();
         ad.text = aActorMsg.atkDistance[1].ToString();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            AAcotrBuffer buffer = AssetsManager.Instance.GetActor(ActorType.AACTORBUFFER) as AAcotrBuffer;
-            testBuffer.bufferType = Tools.GetValue<BufferType>(
-            BufferType.BT_ADD_MAXHP,
-            BufferType.BT_ADD_MAXMAGIC,
-            BufferType.BT_ADD_PATK,
-            BufferType.BT_ADD_MATK,
-            BufferType.BT_ADD_PDEF,
-            BufferType.BT_ADD_MDEF,
-            BufferType.BT_ADD_ATKDIS,
-            BufferType.BT_ADD_MOVESPEED,
-            BufferType.BT_ADD_HP_CONTINUE,
-            BufferType.BT_ADD_MAGIC_CONTINUE
-            );
-            testBuffer.bufferTime = Random.Range(1, 10);
-            testBuffer.bufferValue = Random.Range(1, 20);
-            buffer.SetBufferMsg(this,testBuffer);
-            AddBuffer(buffer);
-        }
+        //if (Input.GetKeyDown(KeyCode.Space))
+        //{
+        //    AAcotrBuffer buffer = AssetsManager.Instance.GetActor(ActorType.AACTORBUFFER) as AAcotrBuffer;
+        //    testBuffer.bufferType = Tools.GetValue<BufferType>(
+        //    BufferType.BT_ADD_MAXHP,
+        //    BufferType.BT_ADD_MAXMAGIC,
+        //    BufferType.BT_ADD_PATK,
+        //    BufferType.BT_ADD_MATK,
+        //    BufferType.BT_ADD_PDEF,
+        //    BufferType.BT_ADD_MDEF,
+        //    BufferType.BT_ADD_ATKDIS,
+        //    BufferType.BT_ADD_MOVESPEED,
+        //    BufferType.BT_ADD_HP_CONTINUE,
+        //    BufferType.BT_ADD_MAGIC_CONTINUE
+        //    );
+        //    testBuffer.bufferTime = Random.Range(1, 10);
+        //    testBuffer.bufferValue = Random.Range(1, 20);
+        //    buffer.SetBufferMsg(this,testBuffer);
+        //    AddBuffer(buffer);
+        //}
+        transform.position = Vector3.MoveTowards(transform.position, moveTarget, 10 * Time.deltaTime);
     }
 
     public void DamagedBy(AtkInfo atkInfo)
