@@ -73,7 +73,8 @@ public class AActor : Actor {
         if (isDead)
             return;
         Debug.Log("Damaged");
-        AddBuffer(atkInfo.buffer);
+        if(atkInfo.buffer != null)
+            AddBuffer(atkInfo.buffer);
     }
 
     private void ChangeHp(int changeValue,bool isChangeMaxHp = false)

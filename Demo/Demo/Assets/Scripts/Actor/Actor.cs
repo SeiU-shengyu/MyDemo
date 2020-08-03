@@ -15,6 +15,7 @@ public class Actor : MonoBehaviour {
     public virtual void Release()
     {
         AssetsManager.Instance.ReleaseActor(actorType, this);
+        Debug.Log(gameObject.name + "->release");
     }
 	// Use this for initialization
 	void Start () {

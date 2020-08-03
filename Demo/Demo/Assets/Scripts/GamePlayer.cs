@@ -17,7 +17,7 @@ public class GamePlayer : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
-        maskLayer = LayerMask.GetMask("OtherPlayer", "Master", "Floor");
+        maskLayer = LayerMask.GetMask("Floor");
     }
 	
 	// Update is called once per frame
@@ -87,11 +87,22 @@ public class GamePlayer : MonoBehaviour
             skillCircle.transform.position = pos + myAActor.transform.position;
             skillSquare.transform.position = pos + myAActor.transform.position;
         }
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && distanceCircle.gameObject.activeSelf)
         {
             distanceCircle.gameObject.SetActive(false);
-            skillCircle.gameObject.SetActive(false);
-            skillSquare.gameObject.SetActive(false);
+            Skill skill = AssetsManager.Instance.GetActor(ActorType.SKILL) as Skill;
+            if (skillCircle.gameObject.activeSelf)
+            {
+                skillCircle.gameObject.SetActive(false);
+                skill.transform.position = skillCircle.transform.position;
+            }
+            else
+            {
+                skillSquare.gameObject.SetActive(false);
+                skill.transform.position = skillSquare.transform.position;
+            }
+            AtkInfo atkInfo = new AtkInfo();
+            skill.SetMsg(myAActor, null, atkInfo, skillMsg);
         }
     }
 

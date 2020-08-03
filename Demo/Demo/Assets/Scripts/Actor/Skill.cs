@@ -51,9 +51,15 @@ public class Skill : Actor {
             foreach (AActor aActor in AssetsManager.Instance.AliveActor)
             {
                 Vector3 dir = aActor.transform.position - transform.position;
-                if (Mathf.Abs(Vector3.Dot(dir, transform.right)) <= skillMsg.drParam1 || 
+                //Debug.Log(Mathf.Abs(Vector3.Dot(dir, transform.right)) + ":" + skillMsg.drParam1);
+                //Debug.Log(Mathf.Abs(Vector3.Dot(dir, transform.forward)) + ":" + skillMsg.drParam2);
+                if (Mathf.Abs(Vector3.Dot(dir, transform.right)) <= skillMsg.drParam1 &&
                     Mathf.Abs(Vector3.Dot(dir, transform.forward)) <= skillMsg.drParam2)
+                {
+                    atkInfo.buffer = AssetsManager.Instance.GetActor(ActorType.AACTORBUFFER) as AAcotrBuffer;
+                    atkInfo.buffer.SetBufferMsg(aActor, new BufferMsg(BufferType.BT_ADD_HP_CONTINUE, -10, 0));
                     aActor.DamagedBy(atkInfo);
+                }
             }
         }
         else
