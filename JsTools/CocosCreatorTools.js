@@ -133,26 +133,25 @@ window._eventCenter = {
 window._loadResources = {
     allAssets : {},
     remoteAssets : {},
-    loadAllRes : function(path,progressCall)
+    loadAllRes : function(path,progressCall,completedCall)
     {
-        cc.loader.loadResDir(path,function(completedCount,totalCounts){
-            if(progressCall)
-            progressCall(completedCount / totalCounts);
+        cc.resources.loadDir(path,function(completedCount,totalCounts){
+            progressCall && progressCall(completedCount / totalCounts);
         },function(error,resources){
-            console.log(resources.length);
+            console.log('loadAllRes->resLength->' + resources.length);
             for(let i = 0;i < resources.length;i++)
             {
-            console.log(resources[i].name)
-            this.allAssets[resources[i].name] = resources[i];
+                console.log('loadAllRes->resName->' + resources[i].name)
+                this.allAssets[resources[i].name] = resources[i];
             }
+            completedCall && completedCall();
         }.bind(this));
     },
     loadRemoteAssets : function(url,call)
     {
-        cc.loader.load(url, function (err, texture) {
+        cc.resources.loadRemote(url, function (err, texture) {
             this.remoteAssets[url] = new cc.SpriteFrame(texture,cc.Rect(0,0,texture.width,texture.height));
-            if(call)
-                call(this.remoteAssets[url]);
+            call && call(this.remoteAssets[url]);
         }.bind(this));
     },
     setRemoteSprite(sprite,name)
@@ -165,11 +164,12 @@ window._loadResources = {
 }
 
 //为目标子集下的按钮添加事件(不能有相同的名字)
-window._addChildButtonEvent = function(target,targetNode)
+window._addEvent = function(target,targetNode)
 {
     for(let i = 0; i < targetNode.children.length; i++)
     {
         let button = targetNode.children[i].getComponent(cc.Button);
+        let scrollView = targetNode.children[i].getComponent(cc.ScrollView);
         if(button)
         {
             let clickEventHandler = new cc.Component.EventHandler();
@@ -180,18 +180,28 @@ window._addChildButtonEvent = function(target,targetNode)
             button.clickEvents.push(clickEventHandler);
             target[button.node.name] = button;
         }
+        else if(scrollView)
+        {
+            let scrollEventHandler = new cc.Component.EventHandler();
+            scrollEventHandler.target = target.node;
+            scrollEventHandler.component = cc.js.getClassName(target);
+            console.log(cc.js.getClassName(target));
+            scrollEventHandler.handler = "on" + scrollView.node.name; 
+            scrollView.scrollEvents.push(scrollEventHandler);
+            target[scrollView.node.name] = scrollView;
+        }
         else
         {
             if(targetNode.children[i].childrenCount != 0)
             {
-                _addChildButtonEvent(target,targetNode.children[i]);
+                _addEvent(target,targetNode.children[i]);
             }
         }
     }
 }
 
 //获取想要控制显示相关的节点和Lable、Sprite、Animation(以名字是否包含Show为基准,且不能有相同的名字)
-window._getCtrlShowElement = function(target,targetNode)
+window._getElement = function(target,targetNode)
 {
     for(let i = 0;i < targetNode.children.length;i++)
     {
@@ -211,7 +221,7 @@ window._getCtrlShowElement = function(target,targetNode)
         }
         if(targetNode.children[i].childrenCount != 0)
         {
-            _getCtrlShowElement(target,targetNode.children[i]);
+            _getElement(target,targetNode.children[i]);
         }
     }
 }
@@ -223,9 +233,9 @@ window._xmlHttpRequest = function(url,data,code,codeNum,overTime)
     let p = new Promise(function(resolve,reject){
         xhr.open('POST',url,true);
         xhr.setRequestHeader("Content-type","application/json;charset=UTF-8");
-        xhr.setRequestHeader("App-Channel",_urlData.channel);
-        xhr.setRequestHeader("Authorization",_urlData.token);
-        //xhr.setRequestHeader("Origin","http://localhost:7456");
+        //xhr.setRequestHeader("App-Channel",_urlData.channel);
+        //xhr.setRequestHeader("Authorization",_urlData.token);
+        xhr.setRequestHeader("Origin","http://localhost:7456");
         if(overTime)
             xhr.timeout = overTime;
         else
@@ -252,19 +262,16 @@ window._xmlHttpRequest = function(url,data,code,codeNum,overTime)
     return p;
 }
 
-//优化过的scrollView(限制content里面元素的描绘个数,有待改进,现在是每帧判定一次,可以改为只有在滑动的时候才判定)
-window._scrollView = function(content,contentList,viewLength,singleHeight,space){
+//优化过的scrollView(限制content里面元素的描绘个数)
+window._scrollView = function(content,contentList,viewLength,space){
+    if(contentList.length == 0)
+        return;
     let upDistance = content.position.y - viewLength / 2;
-    let viewCounts = Math.ceil(viewLength / singleHeight);
-    let upCounts = Math.floor(upDistance / singleHeight);
+    let viewCounts = Math.ceil(viewLength / (contentList[0].node.height + space));
+    let upCounts = Math.floor(upDistance / (contentList[0].node.height + space));
 
     for(let i = 0; i < contentList.length; i++)
     {
-        if(i != 0)
-            contentList[i].node.position = contentList[i].node.position.add(new cc.v3(0,-singleHeight,0));
-        else
-            contentList[i].node.position = new cc.v3(0,-contentList[i].node.height / 2 - space,0);
-
         let hideCounts = upCounts - 2 > 0 ? upCounts - 2 : 0;
         if(i < hideCounts)
             contentList[i].node.active = false;
@@ -307,63 +314,112 @@ window._getRandomValue = function(){
 //target:目标模板,根据这个创建节点,如果没有则创建默认节点
 //parent:所有对象的父集
 //counts:初始化的个数
-//targetClass:目标类,与目标模板之间必须有一个.如果设置了,则对象池中存储的为该类的实例否则为节点
+// //targetClass:目标类,与目标模板之间必须有一个.如果设置了,则对象池中存储的为该类的实例否则为节点
 window._objectPool = function(target,parent,counts,targetClass)
 {
-    let busyPool = [],idlePool = [];
+    this.pool = new cc.NodePool(targetClass);
+    this.target = target;
+    this.parent = parent;
+    this.targetClass = targetClass;
     for(let i = 0;i < counts;i++)
     {
         let targetObj;
-        if(target)
-            targetObj = cc.instantiate(target);
-        else
-            targetObj = new cc.Node();
-        targetObj.parent = parent;
-        targetObj.active = false;
-        if(targetClass)
-        {
-            if(target)
-                targetObj = targetObj.getComponent(targetClass);
-            else
-                targetObj = targetObj.addComponent(targetClass);
-        }
-        idlePool.push(targetObj);
+        targetObj = cc.instantiate(this.target);
+        targetObj.parent = this.parent;
+        this.pool.put(targetObj);
     }
     this.get = function(){
         let targetObj;
-        if(idlePool.length == 0)
+        if(this.pool.size() == 0)
         {
-            if(target)
-                targetObj = cc.instantiate(target);
-            else
-                targetObj = new cc.Node();
-            targetObj.parent = parent;
-            if(targetClass)
-            {
-                if(target)
-                    targetObj = targetObj.getComponent(targetClass);
-                else
-                    targetObj = targetObj.addComponent(targetClass);
-            }
+            targetObj = cc.instantiate(this.target);
+            targetObj.parent = this.parent;
+            this.pool.put(targetObj);
         }
-        else
-        {
-            targetObj = idlePool.pop();
-        }
-        busyPool.push(targetObj);
-        if(targetObj instanceof cc.Node)
-            targetObj.active = true;
-        else
-            targetObj.node.active = true;
+        targetObj = this.pool.get();
+        targetObj.parent = this.parent;
+        if(this.targetClass)
+            targetObj = targetObj.getComponent(this.targetClass);
         return targetObj;
     }
-    this.release = function(target){
-        let index = busyPool.indexOf(target);
-        if(target instanceof cc.Node)
-            target.active = false;
+    this.release = function(targetObj){
+        if(targetObj instanceof cc.Node)
+            this.pool.put(targetObj);
         else
-            target.node.active = false;
-        idlePool.push(target);
-        busyPool.splice(index,1);
+            this.pool.put(targetObj.node);
     }
 }
+// 有问题的对象池，有时候会获取时会得到正在表现的对象，暂时不知道啥问题
+// window._objectPool = function(target,parent,counts,targetClass)
+// {
+//     this.busyPool = [];
+//     this.idlePool = [];
+//     this.target = target;
+//     this.parent = parent;
+//     this.targetClass = targetClass;
+//     for(let i = 0;i < counts;i++)
+//     {
+//         let targetObj;
+//         if(this.target)
+//             targetObj = cc.instantiate(this.target);
+//         else
+//             targetObj = new cc.Node();
+//         targetObj.parent = this.parent;
+//         targetObj.active = false;
+//         if(this.targetClass)
+//         {
+//             if(this.target)
+//                 targetObj = targetObj.getComponent(this.targetClass);
+//             else
+//                 targetObj = targetObj.addComponent(this.targetClass);
+//         }
+//         this.idlePool.push(targetObj);
+//     }
+//     this.get = function(){
+//         let targetObj;
+//         if(this.idlePool.length == 0)
+//         {
+//             if(this.target)
+//                 targetObj = cc.instantiate(this.target);
+//             else
+//                 targetObj = new cc.Node();
+//             targetObj.parent = this.parent;
+//             if(this.targetClass)
+//             {
+//                 if(this.target)
+//                     targetObj = targetObj.getComponent(this.targetClass);
+//                 else
+//                     targetObj = targetObj.addComponent(this.targetClass);
+//             }
+//         }
+//         else
+//         {
+//             targetObj = this.idlePool.pop();
+//         }
+//         this.busyPool.push(targetObj);
+//         if(targetObj instanceof cc.Node)
+//         {
+//             targetObj.active = true;
+//         }
+//         else
+//         {
+//             targetObj.node.active = true;
+//             targetObj.init();
+//         }
+//         return targetObj;
+//     }
+//     this.release = function(targetObj){
+//         let index = this.busyPool.indexOf(targetObj);
+//         if(targetObj instanceof cc.Node)
+//         {
+//             targetObj.active = false;
+//         }
+//         else
+//         {
+//             targetObj.node.active = false;
+//             targetObj.unuse();
+//         }
+//         this.idlePool.push(targetObj);
+//         this.busyPool.splice(index,1);
+//     }
+// }
