@@ -1,0 +1,7 @@
+D:\GameWork\tools\Actor\Actor\bin\Debug\Actor.exe.config
+D:\GameWork\tools\Actor\Actor\bin\Debug\Actor.exe
+D:\GameWork\tools\Actor\Actor\bin\Debug\Actor.pdb
+D:\GameWork\tools\Actor\Actor\obj\Debug\Actor.csprojAssemblyReference.cache
+D:\GameWork\tools\Actor\Actor\obj\Debug\Actor.csproj.CoreCompileInputs.cache
+D:\GameWork\tools\Actor\Actor\obj\Debug\Actor.exe
+D:\GameWork\tools\Actor\Actor\obj\Debug\Actor.pdb
